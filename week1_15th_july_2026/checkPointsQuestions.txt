@@ -15,3 +15,8 @@ which are not basically errors. It will give the same error for all type of erro
 segmentations faults, memory limit exceeded, division by zero , So we should the specific except for every 
 error for fast debugging.
 
+4) Give an example of a status update that would not get you fast help, and rewrite it so it would.
+Ans: Bad Example: I'm stuck on the login API. Please help
+Good Example: The /login API returns 401 Unauthorized even when I provide the correct email and password.
+The user exists in the database,the request body reaches the controller correctly.Could you review my authentication
+logic in auth.service.ts to see if I'm missing something?
