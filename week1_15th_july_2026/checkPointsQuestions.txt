@@ -1,0 +1,17 @@
+1) What's the actual purpose of a daily stand-up, and what's a sign a team is doing it wrong?
+Ans: A daily stand up is a short sync meeting generally 10-15 mints long.It inspects progress To
+acheive teams goal. Every member tells what he did yesterday, what he did today and if theirs an obstacle
+that he faced. It helps the team to decide what is needed to done in the next 24 hours so team can 
+efficiently manage their work
+
+2) Why is def f(x, cache={}) dangerous, and how would you fix it?
+Ans: Because in pyhon the default arguements are loaded once. so every call to function f() will
+share same dict across all dictionaries.we will fix by creating new object each time the function is 
+called or by using none.
+
+3) Why can a bare except: be worse than not catching the error at all?
+Ans) Because a bare except doesnt exactly tells the error and also it takes keyboard interuppts as errors 
+which are not basically errors. It will give the same error for all type of errors e.g Runtime errors,
+segmentations faults, memory limit exceeded, division by zero , So we should the specific except for every 
+error for fast debugging.
+
