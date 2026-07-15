@@ -17,3 +17,20 @@ try:
 
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
+    
+
+# Cleaning Up After Execution With finally
+
+
+try:
+    print(0/0)
+except RuntimeError as error:
+    print(error)
+else:
+    try:
+        with open("file.log") as file:
+            read_data = file.read()
+    except FileNotFoundError as fnf_error:
+        print(fnf_error)
+finally:
+    print("Cleaning up, irrespective of any exceptions.")
