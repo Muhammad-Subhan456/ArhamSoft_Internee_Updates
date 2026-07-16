@@ -5,7 +5,7 @@ that he faced. It helps the team to decide what is needed to done in the next 24
 efficiently manage their work
 
 2) Why is def f(x, cache={}) dangerous, and how would you fix it?
-Ans: Because in pyhon the default arguements are loaded once. so every call to function f() will
+Ans: Because in python the default arguements are loaded once. so every call to function f() will
 share same dict across all dictionaries.we will fix by creating new object each time the function is 
 called or by using none.
 

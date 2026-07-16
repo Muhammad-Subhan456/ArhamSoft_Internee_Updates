@@ -1,0 +1,21 @@
+1) When would a comprehension make code less readable than a loop, and how do you tell?
+Ans: When the Code includes multiple independant steps, side effects (logging, printing etc),
+break or continue statement or Nested conditions.In all the mentioned Conditions we should
+avoid list comprehensions and prefer Loops
+
+2) Why define your own exception class instead of raising a built-in one with a descriptive message?
+Ans) The Built-in exceptions doesnt provide a descriptive error message and sometimes we want to
+send some specific logs with the error for easy debugging.In such cases a custom defined exception 
+class is preferred rather than built-in one
+
+3) What are __enter__ and __exit__ each responsible for, and what happens differently if __exit__ returns True versus None?
+Ans: __enter__ and __exit__ are the functions of a context manager. the __enter__function is a
+setup function and it runs in a class before any action is performed e.g eastablishing database
+connections etc. while __exit__ is a teardown function that is used to cleanup memory , close opened
+files , close db connections etc.if __exit__ returns None then the exception is not suppressed.while 
+when True is returned it means that python has handled the error but didnt raise any error
+
+4) What's one thing breakpoint() lets you do that adding more print() calls doesn't?
+Ans: breakpoint() stops at the appointed line after that we can use pdb commands to efficiently
+debug our code. print statement only provides a display and continues execution while the breakpoint()
+provides a comprehensive rules for efficiently debugging
