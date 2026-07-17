@@ -28,6 +28,8 @@ try:
     divide(10,0)
 except MyCustomClass as e:
     print(f"Caught an Error: {e}")
+except ValueError as v:
+    print(v)
     
     
 # Chaining Errors
