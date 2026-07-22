@@ -8,5 +8,6 @@ def helloContextManager():
     
 with helloContextManager() as hello:
     print(hello)
+    print(hello)
     
     
