@@ -11,16 +11,16 @@ from models import (
     transactions_today,
 )
 
-LOGS_DIR = Path("logs")
-LOGS_DIR.mkdir(parents=True, exist_ok=True)
+BASE_DIR = Path(__file__).resolve().parent
 
-LOG_FILE = LOGS_DIR / "bank.log"
+LOGS_DIR = BASE_DIR / "logs"
+LOGS_DIR.mkdir(exist_ok=True)
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(message)s",
     handlers=[
-        logging.FileHandler(LOG_FILE, encoding="utf-8"),
+        logging.FileHandler(LOGS_DIR / "bank.log"),
         logging.StreamHandler(),
     ],
 )
@@ -52,14 +52,11 @@ def main():
         },
     ]
 
-    save_transactions(
-        "data/transactions.json",
-        transactions,
-    )
+    transactions_file = BASE_DIR / "data" / "transactions.json"
 
-    loaded = load_transactions(
-        "data/transactions.json"
-    )
+    save_transactions(transactions_file, transactions)
+
+    loaded = load_transactions(transactions_file)
 
     print(loaded)
 
