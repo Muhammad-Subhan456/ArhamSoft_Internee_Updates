@@ -1,0 +1,42 @@
+2026-07-27 20:09:02,269 | INFO | $300 deposited into Ali's account.
+2026-07-27 20:09:02,270 | INFO | $500 withdrawn from Ali's account.
+2026-07-27 20:09:02,270 | WARNING | Failed withdrawal for Ali. Requested=$5000, Available=$800
+2026-07-27 20:09:02,271 | ERROR | Insufficient Balance.
+Your Current Balance: 800.
+Your Entered Amount: 5000.
+Please Enter Relevant Amount.
+2026-07-27 20:09:51,555 | INFO | $300 deposited into Ali's account.
+2026-07-27 20:09:51,555 | INFO | $500 withdrawn from Ali's account.
+2026-07-27 20:09:51,556 | WARNING | Failed withdrawal for Ali. Requested=$5000, Available=$800
+2026-07-27 20:09:51,556 | ERROR | Insufficient Balance.
+Your Current Balance: 800.
+Your Entered Amount: 5000.
+Please Enter Relevant Amount.
+2026-07-27 20:23:27,178 | INFO | $300 deposited into Ali's account.
+2026-07-27 20:23:27,179 | INFO | $500 withdrawn from Ali's account.
+2026-07-27 20:23:27,179 | WARNING | Failed withdrawal for Ali. Requested=$5000, Available=$800
+2026-07-27 20:23:27,179 | ERROR | Insufficient Balance.
+Your Current Balance: 800.
+Your Entered Amount: 5000.
+Please Enter Relevant Amount.
+2026-07-27 20:23:41,305 | INFO | $300 deposited into Ali's account.
+2026-07-27 20:23:41,306 | INFO | $500 withdrawn from Ali's account.
+2026-07-27 20:23:41,306 | WARNING | Failed withdrawal for Ali. Requested=$5000, Available=$800
+2026-07-27 20:23:41,306 | ERROR | Insufficient Balance.
+Your Current Balance: 800.
+Your Entered Amount: 5000.
+Please Enter Relevant Amount.
+2026-07-27 20:23:47,912 | INFO | $300 deposited into Ali's account.
+2026-07-27 20:23:47,913 | INFO | $500 withdrawn from Ali's account.
+2026-07-27 20:23:47,913 | WARNING | Failed withdrawal for Ali. Requested=$5000, Available=$800
+2026-07-27 20:23:47,913 | ERROR | Insufficient Balance.
+Your Current Balance: 800.
+Your Entered Amount: 5000.
+Please Enter Relevant Amount.
+2026-07-27 20:24:22,908 | INFO | $300 deposited into Ali's account.
+2026-07-27 20:24:22,909 | INFO | $500 withdrawn from Ali's account.
+2026-07-27 20:24:22,909 | WARNING | Failed withdrawal for Ali. Requested=$5000, Available=$800
+2026-07-27 20:24:22,910 | ERROR | Insufficient Balance.
+Your Current Balance: 800.
+Your Entered Amount: 5000.
+Please Enter Relevant Amount.
