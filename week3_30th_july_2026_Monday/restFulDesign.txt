@@ -1,0 +1,7 @@
+| HTTP Method    | Endpoint                  | Purpose                  |
+| -------------- | ------------------------- | ------------------------ |
+| GET            | `/api/v1/tasks`           | Retrieve all tasks       |
+| GET            | `/api/v1/tasks/{task_id}` | Retrieve a specific task |
+| POST           | `/api/v1/tasks`           | Create a new task        |
+| PUT (or PATCH) | `/api/v1/tasks/{task_id}` | Update an existing task  |
+| DELETE         | `/api/v1/tasks/{task_id}` | Delete a task            |

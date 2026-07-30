@@ -1,0 +1,51 @@
+1) Request Line:
+GET /api/v1/tasks HTTP/1.1
+
+Explanation:
+GET -> HTTP Method
+/api/v1/tasks -> Requested resource (URL path)
+HTTP/1.1 -> HTTP protocol version
+
+2) Request Headers:
+Host: 127.0.0.1:8000
+User-Agent: curl/8.0.1
+Accept: */*
+
+Explanation:
+2.1) Host: Specifies which server should receive the request.
+2.2) User-Agent: Identifies the client making the request.
+2.3) Accept: Indicates the client can accept any response format.
+
+3) Status Line:
+HTTP/1.1 200 OK
+
+Explanation:
+HTTP/1.1 → Protocol version
+200 → Status code
+OK → Reason phrase
+
+4) Response Headers
+date: Wed, 30 Jul 2026 12:30:45 GMT
+server: uvicorn
+content-length: 112
+content-type: application/json
+
+Explanation:
+Date: When the response was generated
+Server: Indicates the web server handling the request
+content-length: The size of the response body in bytes
+content-type: Specifies that the response body contains JSON
+
+5) Response Body: Actual Data Return by the server
+[
+  {
+    "id":1,
+    "title":"Learn FastAPI",
+    "completed":false
+  },
+  {
+    "id":2,
+    "title":"Build REST API",
+    "completed":false
+  }
+]
