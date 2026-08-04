@@ -55,10 +55,11 @@ class NoteResponse(BaseModel):
     title: str
     body: str
     created_at: datetime
+
+    owner: UserResponse
     category: CategoryResponse | None = None
 
     model_config = ConfigDict(from_attributes=True)
-
 
 
 class UserResponse(BaseModel):
