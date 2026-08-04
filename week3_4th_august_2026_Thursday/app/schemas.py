@@ -3,7 +3,6 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr
 
 
-
 class UserRegister(BaseModel):
     username: str
     email: EmailStr
@@ -25,6 +24,15 @@ class TokenData(BaseModel):
     role: str
 
 
+class UserResponse(BaseModel):
+    id: int
+    username: str
+    email: EmailStr
+    role: str
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
 
 class CategoryCreate(BaseModel):
     name: str
@@ -35,7 +43,6 @@ class CategoryResponse(BaseModel):
     name: str
 
     model_config = ConfigDict(from_attributes=True)
-
 
 
 class NoteCreate(BaseModel):
@@ -58,15 +65,5 @@ class NoteResponse(BaseModel):
 
     owner: UserResponse
     category: CategoryResponse | None = None
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class UserResponse(BaseModel):
-    id: int
-    username: str
-    email: EmailStr
-    role: str
-    created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
