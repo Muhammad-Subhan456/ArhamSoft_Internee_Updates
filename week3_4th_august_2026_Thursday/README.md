@@ -105,20 +105,6 @@ Returns every user's notes.
 
 Create a `.env` file in the project root.
 
-Example:
-
-```env
-DATABASE_URL=postgresql+psycopg://postgres:password@db:5432/notes_db
-
-POSTGRES_DB=notes_db
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=password
-
-SECRET_KEY=your_secret_key
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-```
-
 ---
 
 # Running with Docker (Recommended)
