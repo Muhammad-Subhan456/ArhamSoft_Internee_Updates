@@ -1,50 +1,21 @@
-# Python
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
 *.pyd
 
-# Virtual Environment
-venv/
-.venv/
-env/
-
-# Git
 .git
 .gitignore
 
-# IDE
+.env
+
+venv/
+.venv/
+
 .vscode/
 .idea/
 
-# Environment Variables
-.env
-
-# Database
-*.db
-*.sqlite3
-
-# Pytest
 .pytest_cache/
 
-# Mypy
-.mypy_cache/
+notes.db
 
-# Ruff
-.ruff_cache/
-
-# Distribution
-build/
-dist/
-*.egg-info/
-
-# Logs
 *.log
-
-# OS Files
-.DS_Store
-Thumbs.db
-
-# Docker
-Dockerfile
-.dockerignore
