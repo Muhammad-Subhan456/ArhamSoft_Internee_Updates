@@ -1,12 +1,23 @@
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent.parent
+ENV_PATH = BASE_DIR / ".env"
+
+
+load_dotenv(
+    dotenv_path=ENV_PATH,
+    override=True,
+)
 
 
 class Settings:
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///notes.db")
+    DATABASE_URL: str = os.getenv(
+        "DATABASE_URL",
+        "sqlite:///notes.db",
+    )
 
     SECRET_KEY: str = os.getenv(
         "SECRET_KEY",

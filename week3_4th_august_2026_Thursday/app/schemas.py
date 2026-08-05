@@ -67,3 +67,6 @@ class NoteResponse(BaseModel):
     category: CategoryResponse | None = None
 
     model_config = ConfigDict(from_attributes=True)
+    
+class CategoryUpdate(BaseModel):
+    name: str

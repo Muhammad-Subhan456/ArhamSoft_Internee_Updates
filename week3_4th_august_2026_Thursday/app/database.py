@@ -5,10 +5,10 @@ from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 from app.config import settings
 
+
 engine = create_engine(
     settings.DATABASE_URL,
-    echo=False,
-    connect_args={"check_same_thread": False},
+    echo=True,
 )
 
 SessionLocal = sessionmaker(
@@ -27,6 +27,5 @@ def get_db() -> Generator[Session, None, None]:
 
     try:
         yield db
-
     finally:
         db.close()
