@@ -80,31 +80,59 @@ Returns every user's notes.
 
 ```
 .
-├── alembic/
-├── app/
-│   ├── routers/
-│   ├── services/
-│   ├── models.py
-│   ├── schemas.py
-│   ├── security.py
-│   ├── database.py
-│   ├── config.py
-│   └── main.py
+├── alembic/                     # Alembic migration files
+│   ├── versions/
+│   └── env.py
 │
-├── frontend/
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
+├── app/                         # Main application
+│   ├── routers/                 # API routes
+│   │   ├── admin.py
+│   │   ├── auth.py
+│   │   ├── categories.py
+│   │   └── notes.py
+│   │
+│   ├── services/                # Business logic
+│   │   ├── auth_service.py
+│   │   ├── category_service.py
+│   │   └── note_service.py
+│   │
+│   ├── config.py                # Environment configuration
+│   ├── database.py              # Database connection
+│   ├── dependencies.py          # Authentication & authorization dependencies
+│   ├── main.py                  # FastAPI application entry point
+│   ├── models.py                # SQLAlchemy models
+│   ├── schemas.py               # Pydantic schemas
+│   └── security.py              # JWT & password utilities
+│
+├── frontend/                    # Minimal frontend for testing APIs
+├── Images/                      # Project screenshots
+│
+├── .dockerignore
+├── .env.example
 ├── alembic.ini
-└── README.md
+├── docker-compose.yml
+├── Dockerfile
+├── README.md
+└── requirements.txt
 ```
 
 ---
 
 # Environment Variables
 
-Copy the `.env.example` file to create a `.env` file and update it with your own PostgreSQL credentials and application secrets.
+Copy the `.env.example` file to create a `.env` file and update it with your PostgreSQL credentials and application secrets.
 
+**Windows**
+
+```powershell
+copy .env.example .env
+```
+
+**Linux/macOS**
+
+```bash
+cp .env.example .env
+```
 
 ---
 
@@ -122,37 +150,45 @@ docker compose build
 docker compose up
 ```
 
-The application will be available at
+or
+
+```bash
+docker compose up --build
+```
+
+The application will be available at:
 
 ```
 http://localhost:8000
 ```
 
-Swagger UI
+Swagger UI:
 
 ```
 http://localhost:8000/docs
 ```
 
+> **Note:** Docker Compose starts both the FastAPI application and the PostgreSQL database automatically.
+
 ---
 
 # Running Without Docker
 
-## 1. Clone Repository
+## 1. Clone the Repository
 
 ```bash
 git clone <repository-url>
 ```
 
 ```bash
-cd notes_api
+cd <project-folder>
 ```
 
 ---
 
-## 2. Create Virtual Environment
+## 2. Create a Virtual Environment
 
-Windows
+### Windows
 
 ```bash
 python -m venv venv
@@ -162,7 +198,7 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-Linux / macOS
+### Linux / macOS
 
 ```bash
 python3 -m venv venv
@@ -184,7 +220,7 @@ pip install -r requirements.txt
 
 ## 4. Create PostgreSQL Database
 
-Using pgAdmin or psql create a database:
+Using pgAdmin or psql, create a database named:
 
 ```
 notes_db
@@ -194,11 +230,11 @@ notes_db
 
 ## 5. Configure Environment Variables
 
-Create a `.env` file as shown above.
+Copy `.env.example` to `.env` and update it with your PostgreSQL credentials and application secrets.
 
 ---
 
-## 6. Apply Migrations
+## 6. Apply Alembic Migrations
 
 ```bash
 alembic upgrade head
@@ -216,7 +252,7 @@ uvicorn app.main:app --reload
 
 # API Documentation
 
-Swagger
+Swagger UI
 
 ```
 http://localhost:8000/docs
@@ -244,17 +280,17 @@ POST /api/v1/auth/register
 POST /api/v1/auth/login
 ```
 
-3. Copy the access token.
+3. Copy the generated JWT access token.
 
 4. Click **Authorize** in Swagger.
 
-Enter:
+5. Enter:
 
 ```
 Bearer <your_token>
 ```
 
-5. Access protected endpoints.
+6. Access all protected endpoints.
 
 ---
 
@@ -303,17 +339,17 @@ Bearer <your_token>
 
 # Database
 
-The project uses PostgreSQL with SQLAlchemy ORM.
+The project uses **PostgreSQL** with **SQLAlchemy ORM**.
 
-Schema management is handled using Alembic migrations.
+Database schema management is handled using **Alembic Migrations**.
 
-Main entities:
+### Main Entities
 
 - User
 - Note
 - Category
 
-Relationships:
+### Relationships
 
 ```
 User
@@ -329,35 +365,47 @@ Category
 
 # Docker Commands
 
-Build
+### Build
 
 ```bash
 docker compose build
 ```
 
-Run
+### Start
 
 ```bash
 docker compose up
 ```
 
-Run in background
+### Build & Start
+
+```bash
+docker compose up --build
+```
+
+### Run in Background
 
 ```bash
 docker compose up -d
 ```
 
-Stop
+### Stop Containers
 
 ```bash
 docker compose down
 ```
 
-Rebuild
+### Stop Containers and Remove Volumes
 
 ```bash
-docker compose up --build
+docker compose down -v
 ```
+
+---
+
+# Screenshots
+
+Project screenshots can be found in the **Images/** directory.
 
 ---
 
@@ -366,5 +414,3 @@ docker compose up --build
 **Muhammad Subhan**
 
 AI/ML Intern @ ArhamSoft
-
-Computer Science Student
