@@ -103,7 +103,8 @@ Returns every user's notes.
 
 # Environment Variables
 
-Create a `.env` file in the project root.
+Copy the `.env.example` file to create a `.env` file and update it with your own PostgreSQL credentials and application secrets.
+
 
 ---
 
