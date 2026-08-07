@@ -19,7 +19,7 @@ app.include_router(notes_router)
 app.include_router(admin_router)
 app.include_router(categories_router)
 
-
+print("Docker Cache Test")
     
 app.mount(
     "/frontend",
