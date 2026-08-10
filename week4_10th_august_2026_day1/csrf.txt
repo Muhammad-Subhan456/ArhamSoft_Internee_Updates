@@ -1,0 +1,5 @@
+CSRF applies to a React form in the same way it applies to a traditional HTML form because 
+React only generates the UI, the browser still performs the underlying HTTP request and handles
+cookies in the same way. If authentication relies on cookies, the browser may automatically attach
+those cookies to requests, so the server still needs appropriate CSRF protection. Using a React 
+Contact component does not automatically prevent CSRF.
