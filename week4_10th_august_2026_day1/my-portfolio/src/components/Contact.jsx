@@ -1,11 +1,27 @@
 function Contact() {
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+
+    if (!form.checkValidity()) {
+      const root = document.documentElement;
+      const previousScrollBehavior = root.style.scrollBehavior;
+
+      root.style.scrollBehavior = "auto";
+      form.reportValidity();
+      root.style.scrollBehavior = previousScrollBehavior;
+      return;
+    }
+
+    form.reset();
+  }
+
   return (
     <section id="contact" aria-labelledby="contact-heading">
       <h2 id="contact-heading">Contact Me</h2>
 
-      <form method="post"
-      onSubmit={(event)=> event.preventDefault()}
-      >
+      <form method="post" noValidate onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name</label>
           <input
@@ -13,7 +29,6 @@ function Contact() {
             name="name"
             type="text"
             required
-            autoComplete="name"
           />
         </div>
 
@@ -24,7 +39,6 @@ function Contact() {
             name="email"
             type="email"
             required
-            autoComplete="email"
           />
         </div>
 
@@ -85,7 +99,9 @@ function Contact() {
           </label>
         </div>
 
-        <button type="submit" >Send Message</button>
+        <button type="submit">
+          Send Message
+        </button>
       </form>
     </section>
   );
