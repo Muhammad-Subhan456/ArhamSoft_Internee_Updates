@@ -1,126 +1,94 @@
-# Notes API
+# ArhamSoft Notes
 
-A RESTful Notes Management API built with **FastAPI**, **SQLAlchemy**, **PostgreSQL**, **Alembic**, and **JWT Authentication**.
+A full-stack **Notes** application:
 
-This project demonstrates a production-style backend architecture using:
+- **Backend:** FastAPI + PostgreSQL + SQLAlchemy + Alembic + JWT
+- **Frontend:** React (Vite) + JavaScript/JSX + CSS
+- **Infra:** Docker & Docker Compose
 
-- FastAPI
-- SQLAlchemy ORM
-- PostgreSQL
-- Alembic Migrations
-- JWT Authentication
-- Role-Based Authorization (RBAC)
-- Service Layer Architecture
-- Docker & Docker Compose
+Users can register/login, manage their own notes and categories, and admins can view all notes.
 
 ---
 
-# Features
+## Features
 
-## Authentication
-
-- User Registration
-- User Login
-- JWT Authentication
-- Password Hashing using Passlib + Bcrypt
-
----
-
-## Notes
-
-- Create Note
-- Get All Own Notes
-- Get Note by ID
-- Update Note
-- Delete Note
-
-Each note belongs to the authenticated user.
+- JWT authentication (register + login)
+- Notes CRUD (create, list, get by id, update, delete)
+- Categories CRUD (per-user ownership)
+- Category filter on notes
+- Role-based admin endpoint (`GET /api/v1/admin/notes`)
+- CORS enabled for the React app (`http://localhost:5173`)
+- Alembic migrations on Docker startup
+- Dockerized backend, database, and frontend
 
 ---
 
-## Categories
+## Tech stack
 
-- Create Category
-- Get All Categories
-- Get Category by ID
-- Update Category
-- Delete Category
-
-Each category can have multiple notes.
+| Layer | Technologies |
+|-------|----------------|
+| Backend | FastAPI, SQLAlchemy, Alembic, PostgreSQL, JWT, Passlib/Bcrypt |
+| Frontend | React, Vite, JavaScript/JSX, CSS |
+| Containers | Docker, Docker Compose, nginx (frontend image) |
 
 ---
 
-## Admin
-
-Admin-only endpoint:
-
-```
-GET /api/v1/admin/notes
-```
-
-Returns every user's notes.
-
----
-
-# Tech Stack
-
-- Python 3.13
-- FastAPI
-- SQLAlchemy
-- PostgreSQL
-- Alembic
-- JWT (python-jose)
-- Passlib
-- Docker
-- Docker Compose
-
----
-
-# Project Structure
+## Project structure
 
 ```
 .
-├── alembic/                     # Alembic migration files
-│   ├── versions/
-│   └── env.py
+├── backend/
+│   ├── alembic/
+│   ├── app/
+│   │   ├── routers/
+│   │   ├── services/
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   ├── schemas.py
+│   │   └── ...
+│   ├── alembic.ini
+│   └── Dockerfile
 │
-├── app/                         # Main application
-│   ├── routers/                 # API routes
-│   │   ├── admin.py
-│   │   ├── auth.py
-│   │   ├── categories.py
-│   │   └── notes.py
-│   │
-│   ├── services/                # Business logic
-│   │   ├── auth_service.py
-│   │   ├── category_service.py
-│   │   └── note_service.py
-│   │
-│   ├── config.py                # Environment configuration
-│   ├── database.py              # Database connection
-│   ├── dependencies.py          # Authentication & authorization dependencies
-│   ├── main.py                  # FastAPI application entry point
-│   ├── models.py                # SQLAlchemy models
-│   ├── schemas.py               # Pydantic schemas
-│   └── security.py              # JWT & password utilities
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── .env.example
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── Dockerfile
+│   └── nginx.conf
 │
-├── frontend/                    # Minimal frontend for testing APIs
-├── Images/                      # Project screenshots
-│
-├── .dockerignore
+├── requirements.txt
 ├── .env.example
-├── alembic.ini
 ├── docker-compose.yml
-├── Dockerfile
-├── README.md
-└── requirements.txt
+├── .gitignore
+└── README.md
 ```
 
 ---
 
-# Environment Variables
+## Prerequisites
 
-Copy the `.env.example` file to create a `.env` file and update it with your PostgreSQL credentials and application secrets.
+### With Docker (recommended)
+
+- Docker Desktop installed and running
+
+### Without Docker
+
+- Python 3.13+
+- Node.js 20+ (npm)
+- PostgreSQL running locally
+
+---
+
+## Environment variables
+
+### Root `.env` (backend + database)
 
 **Windows**
 
@@ -134,282 +102,277 @@ copy .env.example .env
 cp .env.example .env
 ```
 
+Example values:
+
+```env
+DATABASE_URL=postgresql+psycopg://postgres:yourpassword@localhost:5432/notes_db
+
+POSTGRES_DB=notes_db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=yourpassword
+
+SECRET_KEY=your_secret_key_here
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+Notes:
+
+- For **local uvicorn** (no Docker API), keep `DATABASE_URL` with host `localhost`.
+- For **Docker Compose**, the API service overrides `DATABASE_URL` to use host `db` automatically.
+- Never commit `.env` (it is gitignored). Keep `.env.example` with dummy values only.
+
+### Frontend `.env` (local Vite only)
+
+Needed only when running the frontend with `npm run dev`:
+
+```powershell
+copy frontend\.env.example frontend\.env
+```
+
+```env
+VITE_API_URL=http://localhost:8000
+```
+
+When the frontend is built in Docker, `VITE_API_URL` is passed as a build arg (`http://localhost:8000`).
+
 ---
 
-# Running with Docker (Recommended)
+## Option A — Run everything with Docker
 
-## Build
+This starts **PostgreSQL**, **FastAPI**, and the **React frontend** together.
 
-```bash
-docker compose build
+### 1. Start Docker Desktop
+
+Wait until Docker Desktop shows it is running.
+
+### 2. Open the project root
+
+```powershell
+cd path\to\week3_4th_august_2026_Thursday
 ```
 
-## Start
+### 3. Create `.env`
 
-```bash
-docker compose up
+```powershell
+copy .env.example .env
 ```
 
-or
+Update `POSTGRES_*`, `SECRET_KEY`, and related values.
 
-```bash
+> If a local PostgreSQL is already using port **5432**, stop it first or Docker’s Postgres container may fail to bind.
+
+### 4. Build and start
+
+```powershell
 docker compose up --build
 ```
 
-The application will be available at:
+Detached mode:
 
-```
-http://localhost:8000
-```
-
-Swagger UI:
-
-```
-http://localhost:8000/docs
+```powershell
+docker compose up --build -d
 ```
 
-> **Note:** Docker Compose starts both the FastAPI application and the PostgreSQL database automatically.
+### 5. Open the apps
+
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:5173 |
+| API | http://localhost:8000 |
+| Swagger | http://localhost:8000/docs |
+| ReDoc | http://localhost:8000/redoc |
+
+### Useful Docker commands
+
+```powershell
+docker compose ps
+docker compose logs -f
+docker compose logs -f api
+docker compose logs -f frontend
+docker compose down
+docker compose down -v
+```
+
+`down -v` also deletes the Postgres volume (all DB data).
 
 ---
 
-# Running Without Docker
+## Option B — Run without Docker
 
-## 1. Clone the Repository
+### 1. Backend setup
 
-```bash
-git clone <repository-url>
-```
+From the project root:
 
-```bash
-cd <project-folder>
-```
+**Windows**
 
----
-
-## 2. Create a Virtual Environment
-
-### Windows
-
-```bash
+```powershell
 python -m venv venv
-```
-
-```bash
 venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
 ```
 
-### Linux / macOS
+**Linux/macOS**
 
 ```bash
 python3 -m venv venv
-```
-
-```bash
 source venv/bin/activate
-```
-
----
-
-## 3. Install Dependencies
-
-```bash
 pip install -r requirements.txt
+cp .env.example .env
 ```
 
----
+### 2. PostgreSQL
 
-## 4. Create PostgreSQL Database
+Create a database named `notes_db` (or matching `POSTGRES_DB`).
 
-Using pgAdmin or psql, create a database named:
+Ensure root `.env` uses `localhost`:
 
+```env
+DATABASE_URL=postgresql+psycopg://postgres:yourpassword@localhost:5432/notes_db
 ```
-notes_db
-```
 
----
+### 3. Run migrations and start the API
 
-## 5. Configure Environment Variables
-
-Copy `.env.example` to `.env` and update it with your PostgreSQL credentials and application secrets.
-
----
-
-## 6. Apply Alembic Migrations
-
-```bash
+```powershell
+cd backend
 alembic upgrade head
-```
-
----
-
-## 7. Start the Server
-
-```bash
 uvicorn app.main:app --reload
 ```
 
----
+API: http://localhost:8000  
+Docs: http://localhost:8000/docs
 
-# API Documentation
+### 4. Frontend setup (second terminal)
 
-Swagger UI
-
-```
-http://localhost:8000/docs
-```
-
-ReDoc
-
-```
-http://localhost:8000/redoc
+```powershell
+cd frontend
+copy .env.example .env
+npm install
+npm run dev
 ```
 
----
-
-# Authentication Flow
-
-1. Register a user
-
-```
-POST /api/v1/auth/register
-```
-
-2. Login
-
-```
-POST /api/v1/auth/login
-```
-
-3. Copy the generated JWT access token.
-
-4. Click **Authorize** in Swagger.
-
-5. Enter:
-
-```
-Bearer <your_token>
-```
-
-6. Access all protected endpoints.
+Frontend: http://localhost:5173
 
 ---
 
-# Main Endpoints
+## Option C — Hybrid
 
-## Authentication
+Run **database + API in Docker**, frontend with local Vite:
+
+```powershell
+docker compose up --build db api
+```
+
+Then:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+## Authentication flow
+
+1. **Sign up** in the UI (or `POST /api/v1/auth/register`)
+2. **Sign in** (`POST /api/v1/auth/login`)
+3. Use the returned JWT:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+The React app stores the token in `localStorage` as `access_token`.
+
+### Testing the admin endpoint
+
+New users get `role="user"`. Promote a user in PostgreSQL:
+
+```sql
+UPDATE users
+SET role = 'admin'
+WHERE email = 'your-email@example.com';
+```
+
+Log out and log in again. The **Admin** nav item appears and calls `GET /api/v1/admin/notes`.
+
+---
+
+## Main API endpoints
+
+### Authentication
 
 | Method | Endpoint |
-|---------|----------|
+|--------|----------|
 | POST | `/api/v1/auth/register` |
 | POST | `/api/v1/auth/login` |
 
----
-
-## Categories
+### Categories (owned by the logged-in user)
 
 | Method | Endpoint |
-|---------|----------|
+|--------|----------|
 | POST | `/api/v1/categories` |
 | GET | `/api/v1/categories` |
 | GET | `/api/v1/categories/{id}` |
 | PUT | `/api/v1/categories/{id}` |
 | DELETE | `/api/v1/categories/{id}` |
 
----
-
-## Notes
+### Notes (owned by the logged-in user)
 
 | Method | Endpoint |
-|---------|----------|
+|--------|----------|
 | POST | `/api/v1/notes` |
 | GET | `/api/v1/notes` |
 | GET | `/api/v1/notes/{id}` |
 | PUT | `/api/v1/notes/{id}` |
 | DELETE | `/api/v1/notes/{id}` |
 
----
-
-## Admin
+### Admin
 
 | Method | Endpoint |
-|---------|----------|
+|--------|----------|
 | GET | `/api/v1/admin/notes` |
 
 ---
 
-# Database
+## Frontend overview
 
-The project uses **PostgreSQL** with **SQLAlchemy ORM**.
-
-Database schema management is handled using **Alembic Migrations**.
-
-### Main Entities
-
-- User
-- Note
-- Category
-
-### Relationships
-
-```
-User
- └── One-to-Many
-      └── Notes
-
-Category
- └── One-to-Many
-      └── Notes
-```
+- Login / Sign up against the real API
+- Notes CRUD with loading, empty, success, and error states
+- Categories page (create / edit / delete)
+- Category dropdown when creating/editing notes
+- Local React state updates after create/update/delete (no full-list refetch)
+- White + orange professional UI
+- Responsive layout
 
 ---
 
-# Docker Commands
+## Ownership rules
 
-### Build
-
-```bash
-docker compose build
-```
-
-### Start
-
-```bash
-docker compose up
-```
-
-### Build & Start
-
-```bash
-docker compose up --build
-```
-
-### Run in Background
-
-```bash
-docker compose up -d
-```
-
-### Stop Containers
-
-```bash
-docker compose down
-```
-
-### Stop Containers and Remove Volumes
-
-```bash
-docker compose down -v
-```
+- Each user only sees and manages **their own notes**
+- Each user only sees and manages **their own categories**
+- Notes can only be assigned to categories owned by the same user
+- Admins can list all notes via `/api/v1/admin/notes`
 
 ---
 
-# Screenshots
+## Troubleshooting
 
-Project screenshots can be found in the **Images/** directory.
+| Problem | What to try |
+|---------|-------------|
+| Docker can’t start Postgres | Stop local PostgreSQL using port `5432`, or change the compose port mapping |
+| CORS / `net::ERR_FAILED` on API calls | Usually a backend 500 or dead server. Check `docker compose logs -f api` or your uvicorn terminal |
+| Frontend can’t reach API | Confirm API is on http://localhost:8000 and `VITE_API_URL` is `http://localhost:8000` |
+| Stale Docker frontend after code changes | Rebuild: `docker compose up --build frontend` |
+| Alembic / schema errors | From `backend/`: `alembic upgrade head` |
+| Port already in use (`8000` / `5173`) | Stop the old process or change the published ports in `docker-compose.yml` |
+| Multiple uvicorn instances | Keep only one API process on port `8000` |
 
 ---
 
-# Author
+## Author
 
 **Muhammad Subhan**
 

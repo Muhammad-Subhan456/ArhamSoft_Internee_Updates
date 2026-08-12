@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.dependencies import get_current_user
+from app.models import User
 from app.schemas import (
     CategoryCreate,
     CategoryResponse,
@@ -30,9 +31,9 @@ router = APIRouter(
 def create(
     category: CategoryCreate,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
 ):
-    return create_category(db, category)
+    return create_category(db, category, current_user)
 
 
 @router.get(
@@ -41,8 +42,9 @@ def create(
 )
 def read_all(
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    return get_categories(db)
+    return get_categories(db, current_user)
 
 
 @router.get(
@@ -52,8 +54,9 @@ def read_all(
 def read_one(
     category_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    return get_category(db, category_id)
+    return get_category(db, category_id, current_user)
 
 
 @router.put(
@@ -64,12 +67,13 @@ def update(
     category_id: int,
     category: CategoryUpdate,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
 ):
     return update_category(
         db,
         category_id,
         category,
+        current_user,
     )
 
 
@@ -80,11 +84,12 @@ def update(
 def delete(
     category_id: int,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
 ):
     delete_category(
         db,
         category_id,
+        current_user,
     )
 
     return Response(

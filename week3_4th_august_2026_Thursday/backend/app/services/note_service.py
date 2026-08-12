@@ -16,7 +16,12 @@ class NoteService:
     ) -> Note:
 
         if note_data.category_id is not None:
-            category = db.get(Category, note_data.category_id)
+            category = db.scalar(
+                select(Category).where(
+                    Category.id == note_data.category_id,
+                    Category.owner_id == current_user.id,
+                )
+            )
 
             if category is None:
                 raise HTTPException(
@@ -33,9 +38,13 @@ class NoteService:
 
         db.add(note)
         db.commit()
-        db.refresh(note)
 
-        return note
+        # Re-fetch so nested owner/category are fresh for the API response.
+        return NoteService.get_note(
+            db=db,
+            note_id=note.id,
+            current_user=current_user,
+        )
 
     @staticmethod
     def get_notes(
@@ -46,7 +55,10 @@ class NoteService:
         return list(
             db.scalars(
                 select(Note)
-                .options(joinedload(Note.category))
+                .options(
+                    joinedload(Note.category),
+                    joinedload(Note.owner),
+                )
                 .where(Note.owner_id == current_user.id)
             )
         )
@@ -60,7 +72,10 @@ class NoteService:
 
         note = db.scalar(
             select(Note)
-            .options(joinedload(Note.category))
+            .options(
+                joinedload(Note.category),
+                joinedload(Note.owner),
+            )
             .where(
                 Note.id == note_id,
                 Note.owner_id == current_user.id,
@@ -89,14 +104,31 @@ class NoteService:
             current_user,
         )
 
+        if note_data.category_id is not None:
+            category = db.scalar(
+                select(Category).where(
+                    Category.id == note_data.category_id,
+                    Category.owner_id == current_user.id,
+                )
+            )
+
+            if category is None:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Category not found",
+                )
+
         note.title = note_data.title
         note.body = note_data.body
         note.category_id = note_data.category_id
 
         db.commit()
-        db.refresh(note)
 
-        return note
+        return NoteService.get_note(
+            db=db,
+            note_id=note_id,
+            current_user=current_user,
+        )
 
     @staticmethod
     def delete_note(
