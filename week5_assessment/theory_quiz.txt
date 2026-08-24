@@ -1,0 +1,38 @@
+Week 05 Assessment — Theory Quiz
+
+1. What are the two separate pieces that make up a running notebook, and which one holds your variables in memory?
+Answer: A running notebook consists of two parts: the notebook document itself and the kernel.
+It contains code, markdown, and information produced from the code. The kernel's function is to execute the code and to store all variables in memory.
+
+2. You run arr.mean(axis=0) and get back a single number instead of an array of per-column means. What does that tell you about arr's shape, and how would you check?
+Answer: It suggests that arr appears to be a one-dimensional array meaning that there are no different columns. I can check how it looks like and how many dimensions it has using:
+arr.shape and arr.ndim.
+
+
+3. Why does df[(df['a'] > 5) and (df['b'] < 10)] raise an error instead of working like the equivalent plain-Python condition?
+Answer: Conditions in Pandas produce Boolean Series that has one value for every row.
+Python, however, expects only one Boolean value and Pandas, therefore, uses the element-wise operator & instead.
+The right format is:
+df[(df["a"]>5) & (df["b"]<10)]
+
+
+4. You reshape a NumPy array and then change a value in the reshaped version — the original array also changes. Explain why.
+
+Answer: reshape() is often a view of the original array, not a separate copy. Thus, both arrays can refer to the same data so changing the array can affect the original one.
+
+
+5. A column has 40% of its values missing. Give one real argument for dropna() and one real argument for fillna() on that same column — the "right" answer depends on what, specifically?
+
+Answer: dropna() can be right in some situations when 60% left is representative enough and other rows cannot be reconstructed. fillna() can be right when keeping rows is important and some proper substitution exists.
+
+6. Why is df['total'] = df['price'] * df['qty'] faster than the equivalent .apply(lambda row: row['price'] * row['qty'], axis=1) — what's actually different about how each one runs?
+
+Answer: The multiplication process is done through vectors, which allows Pandas/NumPy software to perform operations on full columns with the help of efficient arrays. .apply(axis = 1) accepts each row separately and invokes Python commands a number of times, thus resulting in more overhead than in the previous case.
+
+7. You need to compare average resolution time across four categories. Name the correct plot type for that specific question, and explain what a line chart would incorrectly imply if used instead.
+
+Answer: A bar chart is used here because it provides a comparison of numbers between some categories. A line chart suggests that there is some continuous relationship between the categories that may not be the case.
+
+8. Describe one concrete way to make a real chart misleading without changing any of the underlying data.
+
+Answer: A chart may be contradicting if the axis scale is changed. For example, the y-axis of a bar chart may be placed much higher than zero.
