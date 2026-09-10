@@ -1,0 +1,32 @@
+{
+    "baseline": {
+        "accuracy": 0.6,
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1": 0.75,
+        "roc_auc": 0.5
+    },
+    "logistic_regression": {
+        "accuracy": 0.7458333333333333,
+        "precision": 0.7677419354838709,
+        "recall": 0.8263888888888888,
+        "f1": 0.7959866220735786,
+        "roc_auc": 0.8454137731481481
+    },
+    "decision_tree": {
+        "accuracy": 0.7291666666666666,
+        "precision": 0.7651006711409396,
+        "recall": 0.7916666666666666,
+        "f1": 0.7781569965870307,
+        "roc_auc": 0.8257740162037037
+    },
+    "random_forest": {
+        "accuracy": 0.7708333333333334,
+        "precision": 0.7834394904458599,
+        "recall": 0.8541666666666666,
+        "f1": 0.8172757475083057,
+        "roc_auc": 0.8540943287037036
+    },
+    "credit_score_imputation_value": 649.0,
+    "final_model": "random_forest"
+}
